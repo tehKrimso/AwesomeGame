@@ -23,11 +23,8 @@ namespace Infrastructure
             //
         }
 
-        public void StartGame()
-        {
-            
-            _sceneLoader.LoadScene("Level_1");
-            
-        }
+        public void StartGame() => _sceneLoader.LoadScene("Level_1");
+
+        public void LoadLevel(string levelName) => _sceneLoader.LoadScene(levelName);
     }
 }
