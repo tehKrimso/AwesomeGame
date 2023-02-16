@@ -5,6 +5,7 @@ namespace Infrastructure
 {
     public class GameFactory
     {
+        
         private readonly Game _game;
         private AssetLoader _assets;
         private readonly SceneLoader _sceneLoader;
@@ -24,6 +25,22 @@ namespace Infrastructure
             {
                 door.GetComponent<Door>().Configure(_game);
             }
+        }
+
+
+        public GameObject InstantiatePlayer()
+        {
+            GameObject player =  _assets.InstantiatePlayer();
+
+            Camera.main.transform.parent.GetComponent<FollowCamera>().Follow(player.transform);
+            
+            return player;
+        }
+
+
+        public void InstantiateDeathObjects()
+        {
+            
         }
     }
 }

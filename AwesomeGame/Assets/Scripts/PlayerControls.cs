@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] float groundDistance;
     [SerializeField] LayerMask groundMask;
 
+    public UnityEvent<Vector3> PlayerIsDead = new UnityEvent<Vector3>();
+    
     Vector3 myVelocity;
     float myGravity = -9.81f;
     bool isPlayerGrounded;
@@ -42,6 +45,8 @@ public class PlayerControls : MonoBehaviour
     {
         //mySteps = GetComponent<AudioSource>();
         isControlLocked = false;
+
+        myCamera = Camera.main.transform.parent;
         //mySteps.pitch = 1.4f;
         //if (isControlLocked)
         //{
@@ -162,11 +167,16 @@ public class PlayerControls : MonoBehaviour
         isControlLocked = false;
     }
 
-    /*private void OnTriggerEnter(Collider other)  if collision with deadly stuff
+    private void OnTriggerEnter(Collider other) // if collision with deadly stuff
     {
-        if (other.gameObject.tag == "Cop")
+        if (other.gameObject.CompareTag("EnemyLaser"))
         {
-            FindObjectOfType<GameStatus>().LooseScreen();
+            PlayerIsDead?.Invoke(transform.position);
+            //
+            //смерть плеера
+            //
+
+            //FindObjectOfType<GameStatus>().LooseScreen();
         }
-    }*/
+    }
 }

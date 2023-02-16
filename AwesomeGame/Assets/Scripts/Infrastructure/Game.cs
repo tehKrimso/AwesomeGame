@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Infrastructure
@@ -16,7 +17,12 @@ namespace Infrastructure
             _assets = new AssetLoader();
             _gameFactory = new GameFactory(this,_assets, _sceneLoader);
             
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
+        }
+
+        private void Start()
+        {
+            OnGameStart();
         }
 
         private void Initialize()
@@ -28,7 +34,7 @@ namespace Infrastructure
 
         public void StartGame()
         {
-            _sceneLoader.Load("Level_1",_gameFactory.ConfigureDoors);
+            _sceneLoader.Load("Level_1",OnGameStart);
 
         }
 
@@ -36,6 +42,14 @@ namespace Infrastructure
         {
             _sceneLoader.Load(levelName,_gameFactory.ConfigureDoors);
             
+        }
+
+        private void OnGameStart() => _gameFactory.InstantiatePlayer();
+
+        private void OnLevelLoad()
+        {
+            _gameFactory.InstantiatePlayer();
+            _gameFactory.InstantiateDeathObjects();
         }
 
         //public Coroutine StartCoroutine(IEnumerator coroutine) => StartCoroutine(coroutine);

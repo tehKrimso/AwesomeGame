@@ -17,6 +17,8 @@ public class TurretController : MonoBehaviour
     [SerializeField][Range(0, 1)] float playerShotVolume = 0.5f;
     [SerializeField] Transform placeToSpawnLaser;
     private float shotCounter;
+    private bool _isShooting;
+
     void Start()
     {
         shotCounter = projectilePriodTime;
@@ -38,7 +40,8 @@ public class TurretController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CountDownAndShot();
+        //CountDownAndShot();
+        Shoot();
     }
 
     private void CountDownAndShot()
@@ -52,14 +55,15 @@ public class TurretController : MonoBehaviour
     }
     private void Shoot()
     {
-        if (isPlayerAlive)
+        if (isPlayerAlive && !_isShooting)
         {
+            _isShooting = true;
             StartCoroutine("EnemyFireNonStop");
         }
-        else 
+        else
         {
+            _isShooting = false;
             StopCoroutine("EnemyFireNonStop");
-            //StopAllCoroutines();
         }
     }
     private void FixedUpdate()
