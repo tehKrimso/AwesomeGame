@@ -9,12 +9,23 @@ public class LaserController : MonoBehaviour
     [SerializeField] GameObject _myLaserPrefab;
     [SerializeField] float ElevationOffset = 0f;
     [SerializeField] bool _isCircleMoving = false;
+    [SerializeField] bool _isRotatable = false;
+    [SerializeField] bool _isHorizontal = false;
+    [SerializeField] int _timeTillDestroy = 15;
     private float _angle;
     private Vector3 _positionOffset;
     private GameObject _myGameObject;
     void Awake()
     {
         _myGameObject = GameObject.Instantiate(_myLaserPrefab, this.gameObject.transform, false);
+        if( _isHorizontal)
+        {
+            _myGameObject.transform.Rotate(new Vector3(0,0,90));
+        }
+        if (_timeTillDestroy > 0)
+        {
+            Destroy(this.gameObject, _timeTillDestroy);
+        }
     }
 
     private void LateUpdate()
@@ -29,6 +40,11 @@ public class LaserController : MonoBehaviour
             _myGameObject.transform.position = transform.position + _positionOffset;
             _angle += Time.deltaTime * _moveSpeed;
         }
+        else
+        {
+            _myGameObject.transform.localPosition += new Vector3(transform.position.x, transform.position.y, transform.position.z + (Time.deltaTime * _moveSpeed));
+        }
+
         
     }
 }

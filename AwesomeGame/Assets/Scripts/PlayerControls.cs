@@ -12,7 +12,14 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] Transform myCamera;
     float turnSmoothVelocityHolder;
     //[SerializeField] Animator myPlayerAnimator; if there will be animations
-
+    //Для работы лазера
+    [SerializeField] GameObject playerLaser;
+    [SerializeField] float projectileSpeed = 20f;
+    [SerializeField] float projectilePriodTime = 0.3f;
+    [SerializeField] AudioClip playerShot;
+    [SerializeField][Range(0, 1)] float playerShotVolume = 0.5f;
+    [SerializeField] Transform placeToSpawnLaser;
+    //Для проверок на прыжок
     [SerializeField] Transform groundCheck;
     [SerializeField] float groundDistance;
     [SerializeField] LayerMask groundMask;
@@ -84,20 +91,10 @@ public class PlayerControls : MonoBehaviour
 
             }
 
+            Jump();
 
-            if (Input.GetButtonDown("Jump") & isPlayerGrounded)
-            {
-                isJumping = true;
-                myGravity = 0f;
-                //myPlayerAnimator.SetBool("isPlayerJumping", true);
-                StartCoroutine("JumpDelayCoroutine");
-                tmp = gameObject.transform.position;
+            Shoot();
 
-            }
-            /*            if (Input.GetButtonDown("Cancel")) #menu call
-                        {
-                            FindObjectOfType<GameStatus>().PauseScreen();
-                        }*/
         }
 
         if (isJumping)
@@ -108,6 +105,21 @@ public class PlayerControls : MonoBehaviour
             myController.Move(myDirection.normalized * myJumpHeight * Time.deltaTime);
         }
     }
+
+    private void Jump()
+    {
+        if (Input.GetButtonDown("Jump") & isPlayerGrounded)
+        {
+            isJumping = true;
+            myGravity = 0f;
+            //myPlayerAnimator.SetBool("isPlayerJumping", true);
+            StartCoroutine("JumpDelayCoroutine");
+            tmp = gameObject.transform.position;
+
+        }
+    }
+
+    //Прыжок кулдаун
     IEnumerator JumpDelayCoroutine()
     {
         //myPlayerAnimator.SetBool("isPlayerJumping", true);
@@ -118,7 +130,32 @@ public class PlayerControls : MonoBehaviour
         myGravity = -9.81f;
         //myPlayerSpeed = 6f;
     }
+    //Огонь лазером
+    IEnumerator FireNonStop()
+    {
+        while (true)
+        {
+            GameObject laser = Instantiate(playerLaser, placeToSpawnLaser.position, transform.rotation) as GameObject;
+            laser.transform.Rotate(new Vector3(90, 0, 0));
+            AudioSource.PlayClipAtPoint(playerShot, Camera.main.transform.position, playerShotVolume);
+            laser.GetComponent<Rigidbody>().velocity = transform.forward * projectileSpeed;
+            Destroy(laser, 5f);
+            yield return new WaitForSeconds(projectilePriodTime);
+        }
 
+    }
+    private void Shoot()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            StartCoroutine("FireNonStop");
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            StopCoroutine("FireNonStop");
+            //StopAllCoroutines();
+        }
+    }
 
     public void ActivateControls()
     {
