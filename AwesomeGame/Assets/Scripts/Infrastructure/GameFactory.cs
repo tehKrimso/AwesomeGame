@@ -1,20 +1,20 @@
-﻿using Mechanics;
+﻿using System.Collections.Generic;
+using Mechanics;
 using UnityEngine;
 
 namespace Infrastructure
 {
     public class GameFactory
     {
-        
-        private readonly Game _game;
-        private AssetLoader _assets;
+        private readonly AssetLoader _assets;
         private readonly SceneLoader _sceneLoader;
+        private readonly List<Vector3> _deathObjectsPosition;
 
-        public GameFactory(Game game,AssetLoader assets, SceneLoader sceneLoader)
+        public GameFactory(AssetLoader assets, SceneLoader sceneLoader, List<Vector3> deathObjectsPosition)
         {
-            _game = game;
             _assets = assets;
             _sceneLoader = sceneLoader;
+            _deathObjectsPosition = deathObjectsPosition;
         }
 
         public void ConfigureDoors()
@@ -23,7 +23,7 @@ namespace Infrastructure
 
             foreach (GameObject door in doors)
             {
-                door.GetComponent<Door>().Configure(_game);
+                //door.GetComponent<Door>().Configure(_game);
             }
         }
 
@@ -40,7 +40,10 @@ namespace Infrastructure
 
         public void InstantiateDeathObjects()
         {
-            
+            foreach (Vector3 deathObjectPosition in _deathObjectsPosition)
+            {
+                _assets.InstantiateDeathObject(deathObjectPosition);
+            }
         }
     }
 }

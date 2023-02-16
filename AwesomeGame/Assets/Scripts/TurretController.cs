@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Infrastructure;
 using UnityEngine;
 
 public class TurretController : MonoBehaviour
 {
+    private Game _gameController;
+    
     private GameObject playerAlive = null;
     private bool isPlayerAlive = false;
     private Vector3 targetPoint;
@@ -19,17 +22,41 @@ public class TurretController : MonoBehaviour
     private float shotCounter;
     private bool _isShooting;
 
+    private Coroutine _shooting;
+
     void Start()
     {
+        _gameController = GameObject.Find("GameController").GetComponent<Game>();
+        
         shotCounter = projectilePriodTime;
+        
+        _gameController.LevelStart.AddListener(FindTarget);
+        
+    }
+
+    private void FindTarget()
+    {
         if (GameObject.FindGameObjectWithTag("Player") != null)
         {
-            playerAlive = GameObject.FindGameObjectWithTag("Player");   //Хотел сделать меньше вызовов на поиск по тегу, пока лень
+            playerAlive =
+                GameObject.FindGameObjectWithTag("Player"); //Хотел сделать меньше вызовов на поиск по тегу, пока лень
             isPlayerAlive = true;
             Debug.Log("Found");
+            
+            playerAlive.GetComponent<PlayerControls>().PlayerIsDead.AddListener(OnPlayerDeath);
         }
     }
-/*    private void OnTriggerEnter(Collider other)
+
+    private void OnPlayerDeath(Vector3 deathPosition)
+    {
+        isPlayerAlive = false;
+        _isShooting = false;
+        
+        playerAlive.GetComponent<PlayerControls>().PlayerIsDead.RemoveListener(OnPlayerDeath);
+        playerAlive = null;
+    }
+
+    /*    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
@@ -55,16 +82,32 @@ public class TurretController : MonoBehaviour
     }
     private void Shoot()
     {
-        if (isPlayerAlive && !_isShooting)
+        if (!isPlayerAlive && _shooting != null)
+        {
+            StopCoroutine(_shooting);
+            _shooting = null;
+            return;
+        }
+
+        if (!_isShooting && isPlayerAlive)
         {
             _isShooting = true;
-            StartCoroutine("EnemyFireNonStop");
+            _shooting = StartCoroutine("EnemyFireNonStop");
+        }
+        
+        
+        /*if (isPlayerAlive)
+        {
+            
         }
         else
         {
-            _isShooting = false;
-            StopCoroutine("EnemyFireNonStop");
-        }
+            if (_isShooting)
+            {
+                _isShooting = false;
+                StopCoroutine("EnemyFireNonStop");
+            }
+        }*/
     }
     private void FixedUpdate()
     {
@@ -78,13 +121,15 @@ public class TurretController : MonoBehaviour
 
     IEnumerator EnemyFireNonStop()
     {
-        GameObject laser = Instantiate(enemyLaser, placeToSpawnLaser.position, transform.rotation) as GameObject;
-        laser.transform.Rotate(new Vector3(90, 0, 0));
-        AudioSource.PlayClipAtPoint(playerShot, Camera.main.transform.position, playerShotVolume);
-        laser.GetComponent<Rigidbody>().velocity = -transform.forward * projectileSpeed;
-        Destroy(laser, 1f);
-        yield return new WaitForSeconds(projectilePriodTime);
-
-
+        while (true)
+        {
+            GameObject laser = Instantiate(enemyLaser, placeToSpawnLaser.position, transform.rotation) as GameObject;
+            laser.transform.Rotate(new Vector3(90, 0, 0));
+            AudioSource.PlayClipAtPoint(playerShot, Camera.main.transform.position, playerShotVolume);
+            laser.GetComponent<Rigidbody>().velocity = -transform.forward * projectileSpeed;
+            Destroy(laser, 1f);
+            yield return new WaitForSeconds(projectilePriodTime);
+        }
+        
     }
 }
