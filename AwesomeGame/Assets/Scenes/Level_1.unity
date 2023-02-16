@@ -776,7 +776,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb8334378fb42f340bb051e3d61d27b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLaser: {fileID: 1862801209291431413, guid: 33a845699da099c46aeaa4774dd0c74f,
+  enemyLaser: {fileID: 1862801209291431413, guid: 33a845699da099c46aeaa4774dd0c74f,
     type: 3}
   projectileSpeed: 20
   projectilePriodTime: 2
