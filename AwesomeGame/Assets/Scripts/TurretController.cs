@@ -16,8 +16,10 @@ public class TurretController : MonoBehaviour
     [SerializeField] AudioClip playerShot;
     [SerializeField][Range(0, 1)] float playerShotVolume = 0.5f;
     [SerializeField] Transform placeToSpawnLaser;
+    private float shotCounter;
     void Start()
     {
+        shotCounter = projectilePriodTime;
         if (GameObject.FindGameObjectWithTag("Player") != null)
         {
             playerAlive = GameObject.FindGameObjectWithTag("Player");   //Хотел сделать меньше вызовов на поиск по тегу, пока лень
@@ -36,7 +38,17 @@ public class TurretController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Shoot();
+        CountDownAndShot();
+    }
+
+    private void CountDownAndShot()
+    {
+        shotCounter -= Time.deltaTime;
+        if (shotCounter <= 0)
+        {
+            Shoot();
+            shotCounter = projectilePriodTime;
+        }
     }
     private void Shoot()
     {
@@ -52,33 +64,23 @@ public class TurretController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-/*        if (GameObject.FindGameObjectWithTag("Player") != null)
+        if (isPlayerAlive)
         {
-            playerAlive = GameObject.FindGameObjectWithTag("Player");
-            isPlayerAlive = true;
+            targetPoint = new Vector3(playerAlive.transform.position.x, transform.position.y, playerAlive.transform.position.z) - transform.position;
+            targetRotation = Quaternion.LookRotation(-targetPoint, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2.0f);
         }
-        else
-        {
-            isPlayerAlive = false;
-        }*/
     }
 
     IEnumerator EnemyFireNonStop()
     {
-        //yield return new WaitForSeconds(projectilePriodTime);
-        while (true)
-        {
-             targetPoint = new Vector3(playerAlive.transform.position.x, transform.position.y, playerAlive.transform.position.z) - transform.position;
-             targetRotation = Quaternion.LookRotation(-targetPoint, Vector3.up);
-             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 2.0f);
-            
-            GameObject laser = Instantiate(enemyLaser, placeToSpawnLaser.position, transform.rotation) as GameObject;
-            laser.transform.Rotate(new Vector3(90, 0, 0));
-            //AudioSource.PlayClipAtPoint(playerShot, Camera.main.transform.position, playerShotVolume);
-            laser.GetComponent<Rigidbody>().velocity = -transform.forward * projectileSpeed;
-            Destroy(laser, 5f);
-            yield return new WaitForSeconds(projectilePriodTime);
-        }
+        GameObject laser = Instantiate(enemyLaser, placeToSpawnLaser.position, transform.rotation) as GameObject;
+        laser.transform.Rotate(new Vector3(90, 0, 0));
+        AudioSource.PlayClipAtPoint(playerShot, Camera.main.transform.position, playerShotVolume);
+        laser.GetComponent<Rigidbody>().velocity = -transform.forward * projectileSpeed;
+        Destroy(laser, 1f);
+        yield return new WaitForSeconds(projectilePriodTime);
+
 
     }
 }
