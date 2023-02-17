@@ -37,12 +37,13 @@ public class LaserController : MonoBehaviour
                         _placeToSpawnLaserBox.y,
                         Mathf.Sin(_angle)/* * Vector3.Distance(_placeToSpawnLaserBox, transform.position)*/
                     );
-            _myGameObject.transform.position = transform.position + _positionOffset;
+            _myGameObject.transform.localPosition = transform.localPosition + _positionOffset;
             _angle += Time.deltaTime * _moveSpeed;
         }
         else
         {
-            _myGameObject.transform.localPosition += new Vector3(transform.position.x, transform.position.y, transform.position.z + (Time.deltaTime * _moveSpeed));
+            float moveOffset = Time.deltaTime * _moveSpeed;
+            _myGameObject.transform.localPosition += new Vector3(0, 0, moveOffset);
         }
 
         
