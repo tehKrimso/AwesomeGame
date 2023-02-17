@@ -18,6 +18,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] float projectileSpeed = 20f;
     [SerializeField] float projectilePriodTime = 0.3f;
     [SerializeField] AudioClip playerShot;
+    [SerializeField] GameObject playerGun;
     [SerializeField][Range(0, 1)] float playerShotVolume = 0.5f;
     [SerializeField] Transform placeToSpawnLaser;
     //Для проверок на прыжок
@@ -143,7 +144,9 @@ public class PlayerControls : MonoBehaviour
         {
             GameObject laser = Instantiate(playerLaser, placeToSpawnLaser.position, transform.rotation) as GameObject;
             laser.transform.Rotate(new Vector3(90, 0, 0));
-            AudioSource.PlayClipAtPoint(playerShot, Camera.main.transform.position, playerShotVolume);
+            //AudioSource.PlayClipAtPoint(playerShot, Camera.main.transform.position, playerShotVolume);
+            playerGun.GetComponent<AudioSource>().Play();
+
             laser.GetComponent<Rigidbody>().velocity = transform.forward * projectileSpeed;
             Destroy(laser, 5f);
             yield return new WaitForSeconds(projectilePriodTime);
