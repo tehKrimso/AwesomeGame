@@ -40,13 +40,14 @@ public class PlayerControls : MonoBehaviour
     {
         //mySteps = GetComponent<AudioSource>();
         //mySteps.Pause();
+        myCamera = Camera.main.transform;
     }
     void Start()
     {
         //mySteps = GetComponent<AudioSource>();
         isControlLocked = false;
 
-        myCamera = Camera.main.transform.parent;
+        //myCamera = Camera.main.transform.parent;
         //mySteps.pitch = 1.4f;
         //if (isControlLocked)
         //{
@@ -176,7 +177,7 @@ public class PlayerControls : MonoBehaviour
             //смерть плеера
             //
 
-            //FindObjectOfType<GameStatus>().LooseScreen();
+           //FindObjectsOfType<TurretController>().SetPlayerStatus(false);
         }
     }
 }

@@ -23,6 +23,7 @@ public class TurretController : MonoBehaviour
     private bool _isShooting;
 
     private Coroutine _shooting;
+    private Coroutine _looking;
 
     void Start()
     {
@@ -82,10 +83,16 @@ public class TurretController : MonoBehaviour
     }
     private void Shoot()
     {
+        if (isPlayerAlive && _looking != null)
+        {
+            StopCoroutine(_looking);
+            _looking = null;
+        }
         if (!isPlayerAlive && _shooting != null)
         {
             StopCoroutine(_shooting);
             _shooting = null;
+            _isShooting = false;
             return;
         }
 
@@ -93,6 +100,10 @@ public class TurretController : MonoBehaviour
         {
             _isShooting = true;
             _shooting = StartCoroutine("EnemyFireNonStop");
+        }
+        if (!isPlayerAlive && _shooting == null && _looking == null)
+        {
+            _looking = StartCoroutine("LookingForPlayer");
         }
         
         
@@ -131,5 +142,19 @@ public class TurretController : MonoBehaviour
             yield return new WaitForSeconds(projectilePriodTime);
         }
         
+    }
+
+    IEnumerator LookingForPlayer()
+    {
+        while (true)
+        {
+            FindTarget();
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    public void SetPlayerStatus(bool setBool)
+    {
+        isPlayerAlive = setBool;
     }
 }
