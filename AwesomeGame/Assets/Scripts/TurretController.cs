@@ -17,6 +17,7 @@ public class TurretController : MonoBehaviour
     [SerializeField] float projectileSpeed = 20f;
     [SerializeField] float projectilePriodTime = 0.3f;
     [SerializeField] AudioClip playerShot;
+    [SerializeField] GameObject turretGun;
     [SerializeField][Range(0, 1)] float playerShotVolume = 0.5f;
     [SerializeField] Transform placeToSpawnLaser;
     private float shotCounter;
@@ -136,7 +137,8 @@ public class TurretController : MonoBehaviour
         {
             GameObject laser = Instantiate(enemyLaser, placeToSpawnLaser.position, transform.rotation) as GameObject;
             laser.transform.Rotate(new Vector3(90, 0, 0));
-            AudioSource.PlayClipAtPoint(playerShot, Camera.main.transform.position, playerShotVolume);
+            //AudioSource.PlayClipAtPoint(playerShot, Camera.main.transform.position, playerShotVolume);
+            turretGun.GetComponent<AudioSource>().Play();
             laser.GetComponent<Rigidbody>().velocity = -transform.forward * projectileSpeed;
             Destroy(laser, 1f);
             yield return new WaitForSeconds(projectilePriodTime);
