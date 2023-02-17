@@ -18,6 +18,7 @@ public class LaserController : MonoBehaviour
     void Awake()
     {
         _myGameObject = GameObject.Instantiate(_myLaserPrefab, this.gameObject.transform, false);
+       
         if( _isHorizontal)
         {
             _myGameObject.transform.Rotate(new Vector3(0,0,90));

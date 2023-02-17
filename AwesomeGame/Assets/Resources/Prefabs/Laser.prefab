@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 1
-  _placeToSpawnLaserBox: {x: 0, y: 5, z: 15}
+  _placeToSpawnLaserBox: {x: 0, y: 0, z: 0}
   _myLaserPrefab: {fileID: 4318555225930155670, guid: 0b6368e55215f834080a169ac08ebf41,
     type: 3}
   ElevationOffset: 0
