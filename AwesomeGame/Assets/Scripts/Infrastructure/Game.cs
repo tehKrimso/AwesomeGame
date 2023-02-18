@@ -21,6 +21,7 @@ namespace Infrastructure
         
         private List<Vector3> _deathObjectsPosition;
 
+        public bool IsWinnable;
         private bool _isHardMode;
         private bool _isSelfDestructionAllowed;
 
@@ -42,6 +43,17 @@ namespace Infrastructure
 
         public bool IsHardModeOn() => _isHardMode;
         public void SetHardMode() => _isHardMode = true;
+        public void SetSelfDestructionMode()
+        {
+            _isSelfDestructionAllowed = true;
+            Player.GetComponent<SelfDestruction>().SetSelfDestruction(_isSelfDestructionAllowed);
+        }
+
+        public void StartHardMode()
+        {
+            SetHardMode();
+            GetComponent<SubLevelSwitcher>().SwitchTo(GameObject.Find("SubLevel_0").GetComponent<SubLevelController>());
+        }
 
         private void OnGameStart()
         {
