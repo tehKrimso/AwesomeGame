@@ -128,4 +128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81169b82993a2c149a287f363fc80589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagName: Wall
+  tagNames:
+  - Wall
+  - Ground
