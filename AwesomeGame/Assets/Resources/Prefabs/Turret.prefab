@@ -221,7 +221,7 @@ Transform:
   m_GameObject: {fileID: 1490693074031450886}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1252878040798531332}
@@ -244,7 +244,7 @@ MonoBehaviour:
   enemyLaser: {fileID: 1862801209291431413, guid: 33a845699da099c46aeaa4774dd0c74f,
     type: 3}
   projectileSpeed: 20
-  projectilePriodTime: 0.3
+  projectilePriodTime: 0.5
   playerShot: {fileID: 8300000, guid: cb28ad9d8b3465f4789ae4ca6caf8fae, type: 3}
   turretGun: {fileID: 1374313979413320680}
   playerShotVolume: 0.5
@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 8269517897811131790}
   - component: {fileID: 4132229606652699826}
   - component: {fileID: 7034475088381366370}
+  - component: {fileID: 3483662240796905767}
   m_Layer: 0
   m_Name: TurretTower
   m_TagString: Untagged
@@ -348,6 +349,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &3483662240796905767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3293738626610615942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6194c861c6bd54d9e963b1c50e9c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: PlayerLaser
 --- !u!1 &5310769135531723263
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,6 +374,7 @@ GameObject:
   - component: {fileID: 8965275912326206834}
   - component: {fileID: 4221212525948251412}
   - component: {fileID: 5632800480513809603}
+  - component: {fileID: 4466735406899740786}
   m_Layer: 0
   m_Name: TurretBase
   m_TagString: Untagged
@@ -445,3 +460,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4466735406899740786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310769135531723263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c6194c861c6bd54d9e963b1c50e9c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: PlayerLaser

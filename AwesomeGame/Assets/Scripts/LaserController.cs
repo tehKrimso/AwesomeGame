@@ -41,7 +41,7 @@ public class LaserController : MonoBehaviour
             _myGameObject.transform.localPosition = transform.localPosition + _positionOffset;
             _angle += Time.deltaTime * _moveSpeed;
         }
-        else
+        else 
         {
             float moveOffset = Time.deltaTime * _moveSpeed;
             _myGameObject.transform.localPosition += new Vector3(0, 0, moveOffset);

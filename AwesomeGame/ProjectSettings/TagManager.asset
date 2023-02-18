@@ -9,6 +9,8 @@ TagManager:
   - MyPlayer
   - EnemyLaser
   - InitialPoint
+  - Wall
+  - PlayerLaser
   layers:
   - Default
   - TransparentFX
