@@ -1282,6 +1282,7 @@ MonoBehaviour:
   LevelStart:
     m_PersistentCalls:
       m_Calls: []
+  SpawnDelay: 1
 --- !u!1001 &231907618
 PrefabInstance:
   m_ObjectHideFlags: 0

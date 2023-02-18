@@ -9,8 +9,9 @@ namespace Infrastructure
     public class Game : MonoBehaviour
     {
         public UnityEvent LevelStart = new UnityEvent();
-        
-        
+        public float SpawnDelay;
+
+
         private SceneLoader _sceneLoader;
         private AssetLoader _assets;
         private GameFactory _gameFactory;
@@ -71,18 +72,22 @@ namespace Infrastructure
             
             Destroy(_player);
             
-            LevelRestart();
+            StartCoroutine( LevelRestart());
         }
 
-        private void LevelRestart()
+        private IEnumerator LevelRestart()
         {
-           _player = _gameFactory.InstantiatePlayer();
+            _gameFactory.InstantiateDeathObjects();
+
+
+            yield return new WaitForSeconds(SpawnDelay);
+            
+            _player = _gameFactory.InstantiatePlayer();
 
             _player.GetComponent<PlayerControls>().PlayerIsDead.AddListener(OnPlayerDeath);
-            
-            _gameFactory.InstantiateDeathObjects();
-            
-            LevelStart?.Invoke();
+
+
+           LevelStart?.Invoke();
         }
 
         //public Coroutine StartCoroutine(IEnumerator coroutine) => StartCoroutine(coroutine);
