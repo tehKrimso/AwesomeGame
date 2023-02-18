@@ -7,7 +7,7 @@ namespace Infrastructure
     {
         public PlayerControls Player;
         
-        private GameObject _currentLevel;
+        private SubLevelController _currentLevel;
 
         private GameObject _initialPoint;
         private Game _game;
@@ -16,7 +16,7 @@ namespace Infrastructure
         {
             _game = GetComponent<Game>();
             
-            _currentLevel = GameObject.Find("SubLevel_0");
+            _currentLevel = GameObject.Find("SubLevel_0").GetComponent<SubLevelController>();
             _initialPoint = GameObject.FindGameObjectWithTag("InitialPoint");
             
             GetComponent<Game>().LevelStart.AddListener(OnLevelStart);
@@ -27,15 +27,23 @@ namespace Infrastructure
             Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>();
         }
 
-        public void SwitchTo(GameObject sublevelTo)
+        public void SwitchTo(SubLevelController sublevelTo)
         {
-            _currentLevel.SetActive(false);
+            _currentLevel.TurnLevelOff();
             _currentLevel = sublevelTo;
 
             _game.CleanUpDeathObjects();
             Player.MoveTo(_initialPoint.transform.position);
+
+            if (_game.IsHardModeOn())
+            {
+                _currentLevel.HardModeOn();
+            }
+            else
+            {
+                _currentLevel.NormalModeOn();
+            }
             
-            _currentLevel.SetActive(true);
         }
     }
 }

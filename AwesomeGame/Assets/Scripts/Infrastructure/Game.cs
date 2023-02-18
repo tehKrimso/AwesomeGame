@@ -17,9 +17,10 @@ namespace Infrastructure
         private SceneLoader _sceneLoader;
         private AssetLoader _assets;
         private GameFactory _gameFactory;
-
-
+        
         private List<Vector3> _deathObjectsPosition;
+
+        private bool _isHardMode;
 
         private void Awake()
         {
@@ -36,6 +37,9 @@ namespace Infrastructure
         }
 
         public void CleanUpDeathObjects() => _gameFactory.ClearDeathObjects();
+
+        public bool IsHardModeOn() => _isHardMode;
+        public void SetHardMode() => _isHardMode = true;
 
         private void OnGameStart()
         {

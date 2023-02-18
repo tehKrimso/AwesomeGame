@@ -6,7 +6,7 @@ namespace Mechanics
 {
     public class Door : MonoBehaviour
     {
-        public GameObject SublevelTo;
+        public SubLevelController SublevelTo;
         
         public SubLevelSwitcher Switcher;
 

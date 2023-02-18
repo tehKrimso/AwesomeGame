@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Mechanics;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -37,11 +38,18 @@ public class PlayerControls : MonoBehaviour
     GameObject myObjectToInteract;
     Vector3 tmp;
     //AudioSource mySteps;
+    
+    //
+    private CheckForCircuitOnDeath _checkForCircuit;
+    //
+    
     void Awake()
     {
         //mySteps = GetComponent<AudioSource>();
         //mySteps.Pause();
         myCamera = Camera.main.transform;
+        _checkForCircuit = GetComponent<CheckForCircuitOnDeath>();
+
     }
     void Start()
     {
@@ -183,11 +191,12 @@ public class PlayerControls : MonoBehaviour
         if (other.gameObject.CompareTag("EnemyLaser"))
         {
             PlayerIsDead?.Invoke(transform.position);
-            //
-            //смерть плеера
-            //
 
-           //FindObjectsOfType<TurretController>().SetPlayerStatus(false);
+            _checkForCircuit.CheckCircuits();
+
+            //FindObjectsOfType<TurretController>().SetPlayerStatus(false);
         }
     }
+    
+    
 }
