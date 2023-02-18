@@ -8,6 +8,8 @@ namespace Infrastructure
 {
     public class Game : MonoBehaviour
     {
+        public GameObject Player;
+        
         public UnityEvent LevelStart = new UnityEvent();
         public float SpawnDelay;
 
@@ -17,7 +19,6 @@ namespace Infrastructure
         private GameFactory _gameFactory;
 
 
-        private GameObject _player;
         private List<Vector3> _deathObjectsPosition;
 
         private void Awake()
@@ -27,8 +28,6 @@ namespace Infrastructure
             _sceneLoader = new SceneLoader(this);
             _assets = new AssetLoader();
             _gameFactory = new GameFactory(_assets, _sceneLoader, _deathObjectsPosition);
-            
-            //DontDestroyOnLoad(this);
         }
 
         private void Start()
@@ -36,30 +35,13 @@ namespace Infrastructure
             OnGameStart();
         }
 
-        private void Initialize()
-        {
-            //настройка компонентов
-            
-            //
-        }
-
-        public void StartGame()
-        {
-            _sceneLoader.Load("Level_1",OnGameStart);
-
-        }
-
-        public void LoadLevel(string levelName)
-        {
-            _sceneLoader.Load(levelName,_gameFactory.ConfigureDoors);
-            
-        }
+        public void CleanUpDeathObjects() => _gameFactory.ClearDeathObjects();
 
         private void OnGameStart()
         {
-            _player = _gameFactory.InstantiatePlayer();
+            //Player = _gameFactory.InstantiatePlayer();
 
-            _player.GetComponent<PlayerControls>().PlayerIsDead.AddListener(OnPlayerDeath);
+            Player.GetComponent<PlayerControls>().PlayerIsDead.AddListener(OnPlayerDeath);
             
             LevelStart?.Invoke();
         }
@@ -68,9 +50,9 @@ namespace Infrastructure
         {
             _deathObjectsPosition.Add(deathPosition);
 
-            _player.GetComponent<PlayerControls>().PlayerIsDead.RemoveListener(OnPlayerDeath);
+            Player.GetComponent<PlayerControls>().PlayerIsDead.RemoveListener(OnPlayerDeath);
             
-            Destroy(_player);
+            Destroy(Player);
             
             StartCoroutine( LevelRestart());
         }
@@ -82,9 +64,9 @@ namespace Infrastructure
 
             yield return new WaitForSeconds(SpawnDelay);
             
-            _player = _gameFactory.InstantiatePlayer();
+            Player = _gameFactory.InstantiatePlayer();
 
-            _player.GetComponent<PlayerControls>().PlayerIsDead.AddListener(OnPlayerDeath);
+            Player.GetComponent<PlayerControls>().PlayerIsDead.AddListener(OnPlayerDeath);
 
 
            LevelStart?.Invoke();

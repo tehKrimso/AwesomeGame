@@ -9,12 +9,14 @@ namespace Infrastructure
         private readonly AssetLoader _assets;
         private readonly SceneLoader _sceneLoader;
         private readonly List<Vector3> _deathObjectsPosition;
+        private readonly List<GameObject> _deathObjects;
 
         public GameFactory(AssetLoader assets, SceneLoader sceneLoader, List<Vector3> deathObjectsPosition)
         {
             _assets = assets;
             _sceneLoader = sceneLoader;
             _deathObjectsPosition = deathObjectsPosition;
+            _deathObjects = new List<GameObject>();
         }
 
         public void ConfigureDoors()
@@ -25,6 +27,18 @@ namespace Infrastructure
             {
                 //door.GetComponent<Door>().Configure(_game);
             }
+        }
+
+
+        public void ClearDeathObjects()
+        {
+            _deathObjectsPosition.Clear();
+            foreach (GameObject deathObject in _deathObjects)
+            {
+                GameObject.Destroy(deathObject);
+            }
+            
+            _deathObjects.Clear();
         }
 
 
@@ -42,7 +56,7 @@ namespace Infrastructure
         {
             foreach (Vector3 deathObjectPosition in _deathObjectsPosition)
             {
-                _assets.InstantiateDeathObject(deathObjectPosition);
+                _deathObjects.Add(_assets.InstantiateDeathObject(deathObjectPosition));
             }
         }
     }

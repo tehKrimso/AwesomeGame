@@ -113,6 +113,13 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    public void MoveTo(Vector3 position)
+    {
+        GetComponent<CharacterController>().enabled = false;
+        transform.position = position;
+        GetComponent<CharacterController>().enabled = true;
+    }
+
     private void Jump()
     {
         if (Input.GetButtonDown("Jump") & isPlayerGrounded)

@@ -4,26 +4,24 @@ using UnityEngine;
 
 namespace Mechanics
 {
-    public class Door : InteractableBase
+    public class Door : MonoBehaviour
     {
-        public string NextLevelName;
-
-        private Game _game;
-
-        public void Configure(Game game)
-        {
-            _game = game;
-        }
+        public GameObject SublevelTo;
         
-        protected override void Interact()
+        public SubLevelSwitcher Switcher;
+
+        private void Update()
         {
-            _game.LoadLevel(NextLevelName);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Debug.Log("E");
+            }
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if(Input.GetKey(KeyCode.E))
-                Interact();
+            if (other.CompareTag("Player") && Input.GetKey(KeyCode.E))
+                Switcher.SwitchTo(SublevelTo);
         }
     }
 }
