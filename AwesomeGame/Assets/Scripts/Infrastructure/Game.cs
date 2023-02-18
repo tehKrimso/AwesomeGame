@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mechanics;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -21,6 +22,7 @@ namespace Infrastructure
         private List<Vector3> _deathObjectsPosition;
 
         private bool _isHardMode;
+        private bool _isSelfDestructionAllowed;
 
         private void Awake()
         {
@@ -47,6 +49,8 @@ namespace Infrastructure
 
             Player.GetComponent<PlayerControls>().PlayerIsDead.AddListener(OnPlayerDeath);
             
+            Player.GetComponent<SelfDestruction>().SetSelfDestruction(_isSelfDestructionAllowed);
+            
             LevelStart?.Invoke();
         }
 
@@ -71,6 +75,8 @@ namespace Infrastructure
             Player = _gameFactory.InstantiatePlayer();
 
             Player.GetComponent<PlayerControls>().PlayerIsDead.AddListener(OnPlayerDeath);
+            
+            Player.GetComponent<SelfDestruction>().SetSelfDestruction(_isSelfDestructionAllowed);
 
 
            LevelStart?.Invoke();

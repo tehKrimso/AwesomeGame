@@ -190,13 +190,16 @@ public class PlayerControls : MonoBehaviour
     {
         if (other.gameObject.CompareTag("EnemyLaser"))
         {
-            PlayerIsDead?.Invoke(transform.position);
-
-            _checkForCircuit.CheckCircuits();
+            OnPlayerDeath();
 
             //FindObjectsOfType<TurretController>().SetPlayerStatus(false);
         }
     }
-    
-    
+
+    public void OnPlayerDeath()
+    {
+        PlayerIsDead?.Invoke(transform.position);
+
+        _checkForCircuit.CheckCircuits();
+    }
 }
