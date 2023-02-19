@@ -7,6 +7,8 @@ namespace Mechanics
     {
         public Game GameController;
         public ElectricCircuitWatcher Watcher;
+        [SerializeField] GameObject newModeTip;
+        [SerializeField] GameObject endGameTip;
 
         protected override void Interact()
         {
@@ -22,6 +24,7 @@ namespace Mechanics
         {
             //запитай цепи лох
             GameController.SetSelfDestructionMode();
+            newModeTip.SetActive(true);
             //дверь говорит
             Debug.Log("Go!");
             
@@ -32,6 +35,7 @@ namespace Mechanics
         {
             //гг
             Debug.Log("You win GGS!");
+            endGameTip.SetActive(true);
         }
     }
 }

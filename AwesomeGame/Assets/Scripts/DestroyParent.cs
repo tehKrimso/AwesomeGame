@@ -12,7 +12,7 @@ public class DestroyParent : MonoBehaviour
         {
             if (other.gameObject.tag == tagNames[i])
             {
-                Destroy(gameObject.transform.parent.gameObject);
+                Destroy(gameObject.transform.parent.gameObject,0.0001f);
             }
         }
         

@@ -12,6 +12,7 @@ TagManager:
   - Wall
   - PlayerLaser
   - ElectricCircuit
+  - myMenu
   layers:
   - Default
   - TransparentFX

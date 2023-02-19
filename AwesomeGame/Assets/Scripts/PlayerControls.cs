@@ -35,6 +35,7 @@ public class PlayerControls : MonoBehaviour
     bool isPressEAvailable = false;
     bool isControlLocked = true;
     bool isJumping = false;
+    bool isMenuActive = false;
     GameObject myObjectToInteract;
     Vector3 tmp;
     //AudioSource mySteps;
@@ -49,6 +50,16 @@ public class PlayerControls : MonoBehaviour
         //mySteps.Pause();
         myCamera = Camera.main.transform;
         _checkForCircuit = GetComponent<CheckForCircuitOnDeath>();
+        myObjectToInteract = GameObject.FindGameObjectWithTag("myMenu");
+        if(myObjectToInteract.transform.GetChild(0) != null & myObjectToInteract.transform.GetChild(0).gameObject.activeSelf == true)
+        {
+            isMenuActive = true;
+        }
+        else if (myObjectToInteract.transform.GetChild(0).gameObject.activeSelf == false)
+        {
+            isMenuActive = false;
+        }
+            
 
     }
     void Start()
@@ -109,7 +120,15 @@ public class PlayerControls : MonoBehaviour
             Jump();
 
             Shoot();
+            /*if (Input.GetButtonDown("Cancel") & !isMenuActive)
+            {
+                isMenuActive = true;
+                myGravity = 0f;
+                //myPlayerAnimator.SetBool("isPlayerJumping", true);
+                StartCoroutine("JumpDelayCoroutine");
+                tmp = gameObject.transform.position;
 
+            }*/
         }
 
         if (isJumping)
@@ -181,6 +200,10 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+    public void DeactivateMenu(bool setBool)
+    {
+        isMenuActive = setBool;
+    }
     public void ActivateControls()
     {
         isControlLocked = false;

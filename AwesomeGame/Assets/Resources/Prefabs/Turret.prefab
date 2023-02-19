@@ -361,7 +361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c6194c861c6bd54d9e963b1c50e9c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagName: PlayerLaser
+  tagNames:
+  - PlayerLaser
 --- !u!1 &5310769135531723263
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,4 +473,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c6194c861c6bd54d9e963b1c50e9c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagName: PlayerLaser
+  tagNames:
+  - PlayerLaser
