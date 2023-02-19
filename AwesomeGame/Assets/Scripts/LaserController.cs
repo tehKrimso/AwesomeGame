@@ -34,11 +34,11 @@ public class LaserController : MonoBehaviour
         if (_isCircleMoving)
         {
             _positionOffset.Set(
-                        Mathf.Cos(_angle)/* * Vector3.Distance(_placeToSpawnLaserBox, transform.position)*/,
-                        _placeToSpawnLaserBox.y,
-                        Mathf.Sin(_angle)/* * Vector3.Distance(_placeToSpawnLaserBox, transform.position)*/
+                        Mathf.Cos(_angle)/** Vector3.Distance(_placeToSpawnLaserBox, Vector3.zero)*/,
+                        0,
+                        Mathf.Sin(_angle) /** Vector3.Distance(_placeToSpawnLaserBox, Vector3.zero)*/
                     );
-            _myGameObject.transform.localPosition = transform.localPosition + _positionOffset;
+            _myGameObject.transform.localPosition = _myGameObject.transform.localPosition + _positionOffset/100f;
             _angle += Time.deltaTime * _moveSpeed;
         }
         else 

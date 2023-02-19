@@ -280,10 +280,12 @@ MonoBehaviour:
 
     LMB - shoot
 
-    E - doors interaction
+    Mouse - rotate player
 
-    F - self
-    destruction'
+    E - doors
+    interaction
+
+    F - self destruction'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 51760129a486c1c48a889dd399dd5664, type: 2}
   m_sharedMaterial: {fileID: 4088120527179604649, guid: 51760129a486c1c48a889dd399dd5664,
