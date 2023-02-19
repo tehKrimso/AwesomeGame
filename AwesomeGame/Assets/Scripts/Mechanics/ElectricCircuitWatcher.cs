@@ -24,7 +24,12 @@ namespace Mechanics
         public void CheckIsWinnable()
         {
             if (_isZeroActive && _isFirstActive && _isSecondActive)
+            {
                 GetComponent<Game>().IsWinnable = true;
+                GetComponent<Game>().IsWinnableEvent?.Invoke();
+                
+            }
+                
         }
     }
 }

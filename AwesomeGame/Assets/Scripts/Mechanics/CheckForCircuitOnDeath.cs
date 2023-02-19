@@ -8,7 +8,8 @@ namespace Mechanics
     {
         public int BufferSize = 5;
         public LayerMask CollisionMask;
-        
+        public Vector3 PowerUpHalfSize;
+
         private Collider[] _deathColliderBuffer;
 
         private void Awake()
@@ -18,7 +19,8 @@ namespace Mechanics
 
         public void CheckCircuits()
         {
-            Physics.OverlapBoxNonAlloc(gameObject.transform.position, new Vector3(5,5,5), _deathColliderBuffer,
+            PowerUpHalfSize = new Vector3(3,3,3);
+            Physics.OverlapBoxNonAlloc(gameObject.transform.position, PowerUpHalfSize, _deathColliderBuffer,
                 quaternion.identity, CollisionMask);
             foreach (Collider circuitCollider in _deathColliderBuffer)
             {

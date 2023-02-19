@@ -12,6 +12,10 @@ namespace Infrastructure
         public GameObject Player;
         
         public UnityEvent LevelStart = new UnityEvent();
+        public UnityEvent HardModeStarted;
+        public UnityEvent IsWinnableEvent;
+        
+        
         public float SpawnDelay;
 
 
@@ -52,7 +56,10 @@ namespace Infrastructure
         public void StartHardMode()
         {
             SetHardMode();
+            GetComponent<HardModeDoorSwitcher>().OnHardModeOn();
             GetComponent<SubLevelSwitcher>().SwitchTo(GameObject.Find("SubLevel_0").GetComponent<SubLevelController>());
+            
+            HardModeStarted?.Invoke();
         }
 
         private void OnGameStart()

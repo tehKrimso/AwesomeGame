@@ -104,6 +104,7 @@ MonoBehaviour:
   CollisionMask:
     serializedVersion: 2
     m_Bits: 2048
+  PowerUpHalfSize: {x: 3, y: 3, z: 3}
 --- !u!114 &6452732180887326262
 MonoBehaviour:
   m_ObjectHideFlags: 0
